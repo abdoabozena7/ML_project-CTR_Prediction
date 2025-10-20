@@ -1,67 +1,77 @@
-Here’s a clean, professional **`README.md`** ready for GitHub — formatted in English, matching your final notebook style:
+Here’s your **GitHub-style `README.md`** — written with Markdown formatting, badges, headings, code blocks, and tables so it renders cleanly and professionally on GitHub:
 
 ---
 
 ````markdown
-# CTR Prediction on Avazu_x1 Dataset
+# 📊 CTR Prediction on Avazu_x1 Dataset
 
-A lightweight exploratory data analysis (EDA) project for **Click-Through Rate (CTR) Prediction** using the **Avazu_x1 dataset** from Hugging Face.  
-This notebook focuses purely on **in-memory exploration** — no saving or folder creation, just direct visualizations and insights.
+![Python](https://img.shields.io/badge/Python-3.9%2B-blue)
+![Dataset](https://img.shields.io/badge/Dataset-Avazu__x1-ff69b4)
+![EDA](https://img.shields.io/badge/Stage-EDA-green)
+![License](https://img.shields.io/badge/License-Academic-lightgrey)
+
+A lightweight **Exploratory Data Analysis (EDA)** notebook for **Click-Through Rate (CTR) Prediction** using the **Avazu_x1** dataset from [Hugging Face](https://huggingface.co/datasets/reczoo/Avazu_x1).  
+All analysis runs **in-memory only** — no files are saved or exported.
 
 ---
 
 ## 🚀 Overview
 
-This project analyzes **ad click prediction data** to understand key distributions, feature patterns, and dataset imbalance.
-
-The analysis includes:
-- Basic dataset loading and summary
-- Label distribution and imbalance visualization
-- Top categorical feature value plots
-- Unique value counts per feature
-- Optional correlation heatmap
-- Summary insights and recommendations
+This notebook investigates ad click-through behavior through:
+- 📦 Sampling 100 K records from the Avazu_x1 dataset  
+- 🔎 Exploring dataset structure, datatypes, and missing values  
+- 📊 Visualizing label imbalance  
+- 🧩 Analyzing top categorical features  
+- 📈 Counting unique values per feature  
+- 🔥 (Optional) Correlation heatmap for numeric columns  
+- 🧠 Summarizing key findings and next-step suggestions  
 
 ---
 
 ## 🧩 Dataset
 
-**Source:** [Hugging Face – reczoo/Avazu_x1](https://huggingface.co/datasets/reczoo/Avazu_x1)
+**Source:** [`reczoo/Avazu_x1`](https://huggingface.co/datasets/reczoo/Avazu_x1)
 
-A small 100k sample is used for exploration to keep memory usage minimal:
 ```python
+from datasets import load_dataset
+
+ds = load_dataset("reczoo/Avazu_x1")
+split = "validation" if "validation" in ds else "train"
 sample = ds[split].shuffle(seed=42).select(range(100_000))
+df = sample.to_pandas()
 ````
+
+> ✅ Uses only 100 K samples to remain memory-efficient.
 
 ---
 
 ## 📊 EDA Highlights
 
-| Step                | Description                                             |
-| ------------------- | ------------------------------------------------------- |
-| 🧱 Basic Info       | Displays structure, missing values, and datatypes       |
-| ⚖️ Label Imbalance  | Visualizes CTR imbalance with `sns.countplot()`         |
-| 🔹 Feature Analysis | Shows top 10 frequent values for selected columns       |
-| 📈 Unique Counts    | Bar plot of unique ID counts per feature                |
-| 🔥 Correlation      | Optional numeric heatmap (for completeness)             |
-| 🧠 Insights         | Concludes with imbalance stats and feature-type summary |
+| Step                | Description                                       |
+| ------------------- | ------------------------------------------------- |
+| 🧱 Basic Info       | Dataset structure, column types, missing values   |
+| ⚖️ Label Imbalance  | `sns.countplot()` visualization of CTR ratio      |
+| 🔹 Feature Analysis | Top-10 most frequent values per selected features |
+| 📈 Unique Counts    | Unique value counts for all columns               |
+| 🔥 Correlation      | Optional numeric-only heatmap                     |
+| 🧠 Insights         | Final conclusions and recommendations             |
 
 ---
 
 ## 🧠 Key Findings
 
-* The dataset is **imbalanced** (CTR ≈ 17% positive class).
-* All features are **categorical**, represented as numeric IDs.
-* **No major missing values** were detected.
-* **Next step:** apply imbalance handling before model training (e.g., class weights or sampling).
+* Dataset is **imbalanced** (≈ 17 % positive class).
+* All features are **categorical**, encoded as numeric IDs.
+* No significant **missing values** detected.
+* Future model training should address imbalance via sampling or class weights.
 
 ---
 
-## 🛠️ Environment
+## 🛠️ Environment Setup
 
 ### Requirements
 
-```
+```bash
 datasets
 pandas
 numpy
@@ -69,41 +79,53 @@ matplotlib
 seaborn
 ```
 
-### Quick setup
+### Install
 
 ```bash
 pip install -r requirements.txt
 ```
 
----
-
-## 📘 Usage
-
-Run the notebook directly:
+### Run
 
 ```bash
 jupyter notebook 01_EDA_Avazu_x1.ipynb
 ```
 
-All figures and tables appear inline — nothing is saved to disk.
+> 💡 All outputs display inline — no file or folder creation.
+
+---
+
+## 🧩 Project Structure
+
+```
+CTR_Prediction_ML/
+├── notebooks/
+│   └── 01_EDA_Avazu_x1.ipynb
+├── requirements.txt
+├── README.md
+└── .gitignore
+```
+
+---
+
+## 🧭 Next Steps
+
+* [ ] Add model training pipeline (`02_Model_Training.ipynb`)
+* [ ] Build Streamlit app prototype
+* [ ] Save trained model for deployment
 
 ---
 
 ## 📄 License
 
-This project is provided for **academic and educational purposes** only.
+This repository is for **academic and educational purposes only**.
+Feel free to fork and adapt for learning or research use.
 
 ---
-
-> 💡 *Next milestones:*
->
-> * [ ] Model Training Notebook
-> * [ ] Streamlit App Prototype
-> * [ ] Integration with Saved Models
 
 ```
 
 ---
 
-Would you like me to add a **badges header** (e.g. Python version, Hugging Face dataset, license, etc.) for better GitHub presentation?
+Would you like me to also generate a **GitHub-ready project description** (short text + tags) for your repo’s sidebar/about section?
 ```
