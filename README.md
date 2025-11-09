@@ -1,9 +1,3 @@
-Got you.
-This README will explain **exactly what you did**, **why**, and **what the rest of the team should continue**.
-It is written so **any team member (even the one who didn’t follow the project) can understand and continue the pipeline.**
-
----
-
 # CTR Prediction Project – Team Workflow Documentation
 
 ## 🎯 Project Goal
@@ -163,7 +157,7 @@ CTR_Prediction/
 
 ## ✅ Summary of Your Contribution
 
-| You Did                        | Why It Matters                        |
+| Abdelrahman & Renad Did                        | Why It Matters                        |
 | ------------------------------ | ------------------------------------- |
 | Data understanding             | Team knows what we are dealing with   |
 | Efficient data loading         | Enables scaling to full dataset later |
@@ -171,9 +165,4 @@ CTR_Prediction/
 | Produced ready-to-train splits | Saves time for the modeling team      |
 | Created visual diagnostics     | Supports presentation & understanding |
 
----
 
-If you'd like, I can now:
-✔ Generate a **team Training Template Notebook**
-✔ Generate a **Model Comparison Dashboard**
-✔ Or convert this README into a **PDF for submission**
