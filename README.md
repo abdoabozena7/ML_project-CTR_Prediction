@@ -1,88 +1,168 @@
+# CTR Prediction Project – Team Workflow Documentation
 
-## 📊 EDA Highlights
+## 🎯 Project Goal
 
-| Step                | Description                                       |
-| ------------------- | ------------------------------------------------- |
-| 🧱 Basic Info       | Dataset structure, column types, missing values   |
-| ⚖️ Label Imbalance  | `sns.countplot()` visualization of CTR ratio      |
-| 🔹 Feature Analysis | Top-10 most frequent values per selected features |
-| 📈 Unique Counts    | Unique value counts for all columns               |
-| 🔥 Correlation      | Optional numeric-only heatmap                     |
-| 🧠 Insights         | Final conclusions and recommendations             |
+The goal of this project is to **predict Click-Through Rate (CTR)** — whether a user will **click (1)** or **not click (0)** on an online advertisement.
 
----
+This is a **binary classification problem** with:
 
-## 🧠 Key Findings
+* **Very large dataset** (tens of millions of rows)
+* **Mostly categorical features** (C1, C2, C14, etc.)
+* **Strong class imbalance** (clicks are rare)
 
-* Dataset is **imbalanced** (≈ 17 % positive class).
-* All features are **categorical**, encoded as numeric IDs.
-* No significant **missing values** detected.
-* Future model training should address imbalance via sampling or class weights.
+Our pipeline is designed to:
+
+1. Explore and understand the data (EDA)
+2. Preprocess it efficiently (especially because of dataset size)
+3. Prepare clean data for model training
+4. Allow the rest of the team to plug in, test models, and compare results
 
 ---
 
-## 🛠️ Environment Setup
+## 📦 Dataset
 
-### Requirements
+Dataset used:
 
-```bash
-datasets
-pandas
-numpy
-scikit-learn
-joblib
-streamlit
-matplotlib
-seaborn
-xgboost
-lightgbm
-catboost
-polars
+```
+BadrAbu/CTR_Prediction   (Hugging Face)
 ```
 
-### Install
+### Label Column
 
-```bash
-pip install -r requirements.txt
+```
+click   (1 = clicked, 0 = not clicked)
 ```
 
-### Run
+### Feature Types
 
-```bash
-jupyter notebook 01_EDA_Avazu_x1.ipynb
-```
-
-> 💡 All outputs display inline — no file or folder creation.
+Most features are **categorical**, encoded as numerical IDs.
+This means models must **treat them as categories, not numeric values**.
 
 ---
 
-## 🧩 Project Structure
+## 🧱 Week 1 – Data Exploration (EDA)
+
+✅ Loaded a **sample of 100,000 rows** — this is intentional to protect memory.
+✅ Checked:
+
+* Column types
+* Number of missing values
+* Unique count per column
+* Basic statistics
+
+✅ Visualizations created:
+
+* Class distribution plot → **Confirmed imbalance**
+* Category frequency distributions
+* Numeric feature summaries
+* Correlation overview (for numeric features)
+
+### Key Findings
+
+| Insight                                         | Meaning                                                     |
+| ----------------------------------------------- | ----------------------------------------------------------- |
+| Dataset is highly imbalanced                    | Most samples are **non-click** → must handle imbalance      |
+| Features are categorical with large cardinality | Standard one-hot encoding produces **huge sparse matrices** |
+| No significant missing value problems           | No strong cleaning required                                 |
+
+---
+
+## 🧠 Week 2 – Preprocessing Pipeline (Your Work)
+
+### Why This Step Matters
+
+We must **prepare the data in a reproducible and scalable way** so every teammate can train models on it.
+
+### What Was Done
+
+| Step                                                    | Explanation                                               | Result                                     |
+| ------------------------------------------------------- | --------------------------------------------------------- | ------------------------------------------ |
+| Used **Polars** instead of Pandas                       | Polars handles millions of rows efficiently               | ✅ Memory safe data loading                 |
+| Converted categorical columns to `category` dtype       | Reduces memory footprint                                  | ✅ Lower RAM usage                          |
+| Took a **300K sample** for balancing & pipeline testing | Safe to run locally                                       | ✅ Prototype pipeline works                 |
+| Balanced classes using **Random Undersampling**         | Avoided SMOTEN (which was too heavy / caused MemoryError) | ✅ Balanced dataset without crashing        |
+| One-Hot encoded categorical features                    | Prepared data for ML models                               | ✅ Sparse encoded matrix ready for training |
+| Split into Train/Test                                   | Ensures fair model evaluation                             | ✅ Data is ready for modeling               |
+
+---
+
+## 🔥 Why We Did *Undersampling* Instead of SMOTEN
+
+| Method            | Problem                                                | Why Undersampling Wins Here     |
+| ----------------- | ------------------------------------------------------ | ------------------------------- |
+| SMOTEN            | Requires pairwise distance matrix → consumes >10GB RAM | Not feasible on real hardware   |
+| **Undersampling** | Simple & stable                                        | Works fast, avoids memory crash |
+
+---
+
+## 🧩 Finally → Data is Exported into **Train/Test** Ready Format
+
+This means the **next team members** can directly start training models **immediately**, no preprocessing needed again.
+
+---
+
+## 🤝 Next Team Tasks (Model Training Phase)
+
+### Choose and Compare Models
+
+Recommended models to try:
+
+| Model               | Why Try It                        | Notes                      |
+| ------------------- | --------------------------------- | -------------------------- |
+| **CatBoost**        | Handles categorical data natively | Strong baseline            |
+| XGBoost             | Good with large sparse matrices   | Enable GPU if possible     |
+| LightGBM            | Fast and memory efficient         | Works well on tabular data |
+| Logistic Regression | Lightweight baseline              | After encoding only        |
+
+### What You Need to Do
+
+1. Import the **processed train/test data**
+2. Train your model
+3. Evaluate using:
+
+   * AUC-ROC
+   * Log loss
+   * Precision, Recall
+4. Compare model performance in a shared results sheet
+
+---
+
+## 📊 Final Presentation Guidance
+
+When presenting to the instructor:
+
+> “The main challenge was the dataset scale and imbalance.
+> I handled this by using Polars for efficient loading and Random Undersampling instead of SMOTEN to avoid memory overflow.
+> The output of my work is a clean, balanced, train-test ready dataset that the rest of the team can now use for model experimentation.”
+
+---
+
+## 🗂 Project Structure
 
 ```
-CTR_Prediction_ML/
+CTR_Prediction/
+│
 ├── notebooks/
-│   └── 01_EDA_Avazu_x1.ipynb
-├── requirements.txt
-├── README.md
-└── .gitignore
+│   ├── Week1_EDA.ipynb
+│   └── Week2_Preprocessing.ipynb   <-- your notebook
+│
+├── data/
+│   ├── raw/           <-- original data
+│   └── processed/     <-- balanced & encoded train/test
+│
+└── models/            <-- next team members will store trained models
 ```
 
 ---
 
-## 🧭 Next Steps
+## ✅ Summary of Your Contribution
 
-* [ ] Add model training pipeline (`02_Model_Training.ipynb`)
-* [ ] Build Streamlit app prototype
-* [ ] Save trained model for deployment
-
----
-
-## 📄 License
-
-This repository is for **academic and educational purposes only**.
-Feel free to fork and adapt for learning or research use.
-
-
-
+| Abdelrahman & Renad Did                        | Why It Matters                        |
+| ------------------------------ | ------------------------------------- |
+| Data understanding             | Team knows what we are dealing with   |
+| Efficient data loading         | Enables scaling to full dataset later |
+| Balanced the dataset correctly | Prevents bias in model predictions    |
+| Produced ready-to-train splits | Saves time for the modeling team      |
+| Created visual diagnostics     | Supports presentation & understanding |
 
 
