@@ -67,7 +67,7 @@ This means models must **treat them as categories, not numeric values**.
 
 ---
 
-## 🧠 Week 2 – Preprocessing Pipeline (Your Work)
+## 🧠 Week 2 – Preprocessing Pipeline 
 
 ### Why This Step Matters
 
@@ -164,6 +164,7 @@ CTR_Prediction/
 | Balanced the dataset correctly | Prevents bias in model predictions    |
 | Produced ready-to-train splits | Saves time for the modeling team      |
 | Created visual diagnostics     | Supports presentation & understanding |
+
 
 
 
