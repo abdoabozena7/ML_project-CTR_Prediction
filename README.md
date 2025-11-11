@@ -12,7 +12,7 @@ This is a **binary classification problem** with:
 
 Our pipeline is designed to:
 
-1. Explore and understand the data (EDA)
+1. Explore and understand the data 
 2. Preprocess it efficiently (especially because of dataset size)
 3. Prepare clean data for model training
 4. Allow the rest of the team to plug in, test models, and compare results
@@ -40,7 +40,7 @@ This means models must **treat them as categories, not numeric values**.
 
 ---
 
-## 🧱 Week 1 – Data Exploration (EDA)
+## 🧱 Week 1 – Data Exploration 
 
 ✅ Loaded a **sample of 100,000 rows** — this is intentional to protect memory.
 ✅ Checked:
@@ -52,7 +52,7 @@ This means models must **treat them as categories, not numeric values**.
 
 ✅ Visualizations created:
 
-* Class distribution plot → **Confirmed imbalance**
+* Class distribution plot → **Confirmed imbalance** with 83% for Not Click and 17% for Click on AD
 * Category frequency distributions
 * Numeric feature summaries
 * Correlation overview (for numeric features)
@@ -144,7 +144,7 @@ CTR_Prediction/
 │
 ├── notebooks/
 │   ├── Week1_EDA.ipynb
-│   └── Week2_Preprocessing.ipynb   <-- your notebook
+│   └── Week2_Preprocessing.ipynb  
 │
 ├── data/
 │   ├── raw/           <-- original data
@@ -164,5 +164,6 @@ CTR_Prediction/
 | Balanced the dataset correctly | Prevents bias in model predictions    |
 | Produced ready-to-train splits | Saves time for the modeling team      |
 | Created visual diagnostics     | Supports presentation & understanding |
+
 
 
