@@ -1,170 +1,134 @@
-# CTR Prediction Project – Team Workflow Documentation
+# 🍽️ IMPACTO-PROJECT
 
-## 🎯 Project Goal
+> **Transforming Food Waste Into Community Impact**
 
-The goal of this project is to **predict Click-Through Rate (CTR)** — whether a user will **click (1)** or **not click (0)** on an online advertisement.
-
-This is a **binary classification problem** with:
-
-* **Very large dataset** (tens of millions of rows)
-* **Mostly categorical features** (C1, C2, C14, etc.)
-* **Strong class imbalance** (clicks are rare)
-
-Our pipeline is designed to:
-
-1. Explore and understand the data 
-2. Preprocess it efficiently (especially because of dataset size)
-3. Prepare clean data for model training
-4. Allow the rest of the team to plug in, test models, and compare results
+Impacto-Project is a full-stack food donation management platform designed to connect donors, NGOs, couriers, and administrators in one transparent and efficient ecosystem.
 
 ---
 
-## 📦 Dataset
+## 📌 Overview
 
-Dataset used:
-
-```
-BadrAbu/CTR_Prediction   (Hugging Face)
-```
-
-### Label Column
-
-```
-click   (1 = clicked, 0 = not clicked)
-```
-
-### Feature Types
-
-Most features are **categorical**, encoded as numerical IDs.
-This means models must **treat them as categories, not numeric values**.
+Impacto-Project streamlines food redistribution by combining a secure API-driven backend with dynamic frontend dashboards.  
+It enables seamless donation workflows, role-based access, and real-time operational insights.
 
 ---
 
-## 🧱 Week 1 – Data Exploration 
+## ✨ Features
 
-✅ Loaded a **sample of 100,000 rows** — this is intentional to protect memory.
-✅ Checked:
+- 🛂 **Role-Based Access Control**  
+  Secure, role-specific dashboards and APIs for donors, NGOs, couriers, and administrators.
 
-* Column types
-* Number of missing values
-* Unique count per column
-* Basic statistics
+- 🌐 **API-First Architecture**  
+  Modular RESTful backend with REST APIs for seamless frontend integration.
 
-✅ Visualizations created:
+- ⚡ **Real-Time Data Handling**  
+  Live dashboards and dynamic updates for efficient management.
 
-* Class distribution plot → **Confirmed imbalance** with 83% for Not Click and 17% for Click on AD
-* Category frequency distributions
-* Numeric feature summaries
-* Correlation overview (for numeric features)
+- 🔐 **Secure User Management**  
+  Authentication, profile updates, and role verification.
 
-### Key Findings
-
-| Insight                                         | Meaning                                                     |
-| ----------------------------------------------- | ----------------------------------------------------------- |
-| Dataset is highly imbalanced                    | Most samples are **non-click** → must handle imbalance      |
-| Features are categorical with large cardinality | Standard one-hot encoding produces **huge sparse matrices** |
-| No significant missing value problems           | No strong cleaning required                                 |
+- 📊 **Comprehensive Dashboards**  
+  Visual summaries and detailed operational views.
 
 ---
 
-## 🧠 Week 2 – Preprocessing Pipeline 
+## 🛠️ Built With
 
-### Why This Step Matters
-
-We must **prepare the data in a reproducible and scalable way** so every teammate can train models on it.
-
-### What Was Done
-
-| Step                                                    | Explanation                                               | Result                                     |
-| ------------------------------------------------------- | --------------------------------------------------------- | ------------------------------------------ |
-| Used **Polars** instead of Pandas                       | Polars handles millions of rows efficiently               | ✅ Memory safe data loading                 |
-| Converted categorical columns to `category` dtype       | Reduces memory footprint                                  | ✅ Lower RAM usage                          |
-| Took a **300K sample** for balancing & pipeline testing | Safe to run locally                                       | ✅ Prototype pipeline works                 |
-| Balanced classes using **Random Undersampling**         | Avoided SMOTEN (which was too heavy / caused MemoryError) | ✅ Balanced dataset without crashing        |
-| One-Hot encoded categorical features                    | Prepared data for ML models                               | ✅ Sparse encoded matrix ready for training |
-| Split into Train/Test                                   | Ensures fair model evaluation                             | ✅ Data is ready for modeling               |
+- JavaScript
+- Node.js
+- Express.js
+- npm
+- JSON
+- HTML
+- CSS
+- Markdown
 
 ---
 
-## 🔥 Why We Did *Undersampling* Instead of SMOTEN
+## 📂 Project Structure
 
-| Method            | Problem                                                | Why Undersampling Wins Here     |
-| ----------------- | ------------------------------------------------------ | ------------------------------- |
-| SMOTEN            | Requires pairwise distance matrix → consumes >10GB RAM | Not feasible on real hardware   |
-| **Undersampling** | Simple & stable                                        | Works fast, avoids memory crash |
-
----
-
-## 🧩 Finally → Data is Exported into **Train/Test** Ready Format
-
-This means the **next team members** can directly start training models **immediately**, no preprocessing needed again.
-
----
-
-## 🤝 Next Team Tasks (Model Training Phase)
-
-### Choose and Compare Models
-
-Recommended models to try:
-
-| Model               | Why Try It                        | Notes                      |
-| ------------------- | --------------------------------- | -------------------------- |
-| **CatBoost**        | Handles categorical data natively | Strong baseline            |
-| XGBoost             | Good with large sparse matrices   | Enable GPU if possible     |
-| LightGBM            | Fast and memory efficient         | Works well on tabular data |
-| Logistic Regression | Lightweight baseline              | After encoding only        |
-
-### What You Need to Do
-
-1. Import the **processed train/test data**
-2. Train your model
-3. Evaluate using:
-
-   * AUC-ROC
-   * Log loss
-   * Precision, Recall
-4. Compare model performance in a shared results sheet
-
----
-
-## 📊 Final Presentation Guidance
-
-When presenting to the instructor:
-
-> “The main challenge was the dataset scale and imbalance.
-> I handled this by using Polars for efficient loading and Random Undersampling instead of SMOTEN to avoid memory overflow.
-> The output of my work is a clean, balanced, train-test ready dataset that the rest of the team can now use for model experimentation.”
-
----
-
-## 🗂 Project Structure
-
-```
-CTR_Prediction/
+```text
+Impacto-Project/
 │
-├── notebooks/
-│   ├── Week1_EDA.ipynb
-│   └── Week2_Preprocessing.ipynb  
-│
-├── data/
-│   ├── raw/           <-- original data
-│   └── processed/     <-- balanced & encoded train/test
-│
-└── models/            <-- next team members will store trained models
+├── backend/        # Express API & business logic
+├── frontend/       # User interfaces & dashboards
+├── Auth/           # Authentication pages
+├── models/         # Database models
+├── routes/         # API routes
+├── controllers/    # Application controllers
+└── README.md
 ```
 
 ---
 
-## ✅ Summary of Your Contribution
+## 🚀 Getting Started
 
-| Abdelrahman & Renad Did                        | Why It Matters                        |
-| ------------------------------ | ------------------------------------- |
-| Data understanding             | Team knows what we are dealing with   |
-| Efficient data loading         | Enables scaling to full dataset later |
-| Balanced the dataset correctly | Prevents bias in model predictions    |
-| Produced ready-to-train splits | Saves time for the modeling team      |
-| Created visual diagnostics     | Supports presentation & understanding |
+### ✅ Prerequisites
 
+- Node.js
+- npm
 
+---
 
+### 📥 Installation
 
+```bash
+git clone https://github.com/Keroloues-Mourad/Impacto-Project
+cd Impacto-Project
+npm install
+```
+
+---
+
+### ▶️ Usage
+
+```bash
+npm start
+```
+
+---
+
+## 🧪 Testing
+
+```bash
+npm test
+```
+
+---
+
+## 🛣️ Roadmap
+
+- [ ] Complete admin analytics dashboard  
+- [ ] Improve donation tracking flow  
+- [ ] Add notifications system  
+- [ ] Enhance security & validation  
+- [ ] Deploy production version  
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome!
+
+1. Fork the repository  
+2. Create your feature branch  
+3. Commit your changes  
+4. Open a Pull Request  
+
+---
+
+## 📄 License
+
+This project is licensed under the **MIT License**.
+
+---
+
+## 🙏 Acknowledgements
+
+- Open-source community  
+- NGOs fighting food waste  
+- Contributors and testers  
+
+---
+
+💚 **Together, we can reduce food waste and increase community impact.**
